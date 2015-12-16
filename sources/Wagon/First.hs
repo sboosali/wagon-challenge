@@ -90,8 +90,10 @@ data TextualRowSummary = TextualRowSummary
 type P = P.Parsec String () 
 
 parse p = P.parse (p <* P.eof) "" 
+{-# INLINEABLE parse #-}
 
 parseRow = parse pRow
+{-# INLINEABLE parseRow #-}
 
 -- parseRow s = case parse pRow s of 
 --  Right a -> Right a 
@@ -106,12 +108,16 @@ pRow = Row_
  <*> optionMaybe' pInteger 
  <*  pSeparator 
  <*> optionMaybe' pDouble 
+{-# INLINEABLE pRow #-}
 
 optionMaybe' p = toMaybe' <$> P.optionMaybe p
+{-# INLINEABLE optionMaybe' #-}
 
 pText = P.many1 P.alphaNum
+{-# INLINEABLE pText #-}
 
-pInteger = read <$> pDigits            -- should be total 
+pInteger = read <$> pDigits            -- is total 
+{-# INLINEABLE pInteger #-}
 
 pDouble = read <$>            -- should be total 
  (append3 <$> pDigits
@@ -119,10 +125,13 @@ pDouble = read <$>            -- should be total
           <*> pDigits)
  where 
  append3 x y z = x++y++z 
+{-# INLINEABLE pDouble #-}
 
 pDigits = P.many1 P.digit 
+{-# INLINEABLE pDigits #-}
 
 pSeparator = P.string ","
+{-# INLINEABLE pSeparator #-}
 
 
 summarize :: Foldable t => t String -> Summary
@@ -179,12 +188,9 @@ summarizeStdin shouldEcho = do
       print $ summarize contents -- contents can't be streamed, traversing is too strict
 
 fSummary :: F.Fold String Summary 
-fSummary = Pair
- <$> F.premap parseRow fLineSummary
- <*> ( F.premap parseRow
-     . F.handles L._Right
-     $ fRowSummary
-     )
+fSummary = F.premap parseRow $ Pair
+  <$> fLineSummary
+  <*> F.handles L._Right fRowSummary
 {-# INLINEABLE fSummary #-}
 
 fLineSummary = LineSummary <$> fCountLefts
@@ -300,7 +306,7 @@ fCountLefts = F.handles L._Left F.genericLength
 
 
 useLines k = do
- h <- getLine              -- ignore header
+ h <- getLine              -- ignore header, this schema is typed and we don't have dependent types or anything 
  interactClean (useLine k) 
 
 useLine k = show . k . stripLine
@@ -318,7 +324,7 @@ whileM mb k = go
 stripLine = filter (not . (`elem` "\n\r"))
  -- assumes the rows don't have any new lines 
 
-getLines -- lazy
+getLines -- not lazy
  = (fmap stripLine . lines)
  <$> getContents
 
@@ -341,9 +347,11 @@ _Just' :: L.Prism (Maybe' a) (Maybe' b) a b
 _Just' = L.prism Just' $ \s -> case s of
  Nothing' -> Left Nothing' -- not s, as it must change type
  Just' a  -> Right a
+{-# INLINEABLE _Just' #-}
 
 toMaybe' :: Maybe a -> Maybe' a
 toMaybe' = maybe Nothing' Just'
+{-# INLINEABLE toMaybe' #-}
 
 
 testRows_ = 

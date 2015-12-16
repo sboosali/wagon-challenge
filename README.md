@@ -2,8 +2,25 @@ Wagon
 = 
 
 
+
 1 
-== 
+==
+
+Running 
+=== 
+
+    git clone https://github.com/sboosali/wagon-challenge && cd wagon-challenge
+    cabal update && cabal sandbox init && cabal install -j4 --enable-library-profiling --enable-executable-profiling
+    # (lens, might take a while)
+    cabal configure --enable-library-profiling --enable-executable-profiling 
+
+    cabal build && (./generator 1000000 | cabal run -- first) && hp2ps -e8in -c first.hp && cat first.prof && open first.ps
+
+
+Discussion 
+=== 
+
+see [First.hs](https://github.com/sboosali/wagon-challenge/blob/master/sources/Wagon/First.hs) 
 
 
 A. I used `foldl` because I remember reading that it provided composable single-pass folds. The two core ideas are just that the Applicative instance (1) is pairwise application (2) with strict pairs.
@@ -17,9 +34,11 @@ B. Both concrete rows and a summary of rows share the same type (`Row_`). I took
 
 C. I got constant residency with a `pipes` one-liner (see `summarizeStdinPipes`). But to make sure I understood the space leak, I profiled an ad-hoc iterator (`foldI`), which still leaked. Then, I tried to make the accumulators totally strict (hence strict `Maybe'` and `Pair` and `BangPatterns`), which indeed sealed the space leak (see `summarizeStdinStreaming`). I could have used enough `seq`s, but I found totally-strict data-structures easier to reason about (c.f. "I know the fields of strict type X' can't be* thunks, ever" v. "I hope I forced the fields of lazy type X in each function that uses it").
 
-1,000,000 rows takes less than a minute with <50kb max residency, which seems fast enough / lean enough. 
+1,000,000 rows takes less than a minute with <50kb max residency [1000000/first.pdf](https://github.com/sboosali/wagon-challenge/blob/master/profiling/1000000/first.pdf), even with profiling, which seems fast enough / lean enough. 
 
-Since it streams, we could implement the "./generator PULL" extension just by turning the fold into a scan.
+10,000,000 rows takes under five minutes [10000000/first.prof](https://github.com/sboosali/wagon-challenge/blob/master/profiling/10000000/first.prof), also constant residency (the PostScript file crashed Preview before conversion to PDF, so I included only the `ps`). 
+
+Since it streams, we could implement the `./generator PULL` extension just by turning the fold into a scan.
 
 *though, they can still have thunks, if only in whnf. 
 
@@ -31,7 +50,9 @@ Since all our summaries (count, sum, average, minimum/maximum) are commutative, 
 
 E. Dependencies: the `parsec` package I've used before, `lens` is used in a minor way, `pipes` is to compare against my iterator, and I thought a simple streaming problem would be a good excuse to learn the `foldl` package. I think this is what I would do (1) on the job (2) to save the most time. This way, I can focus my efforts on Haskell-y things like rich types and purity. In a follow-up, I could also use only the standard library, if you want me to. 
 
+F. By the way, I tend to document my code a lot, and break things up nicely into modules and functions. For time, here I just wrote a long list of declarations. I did go back and clean it up a little by making the imports qualified or explicit. 
 
 2 
 == 
+
 

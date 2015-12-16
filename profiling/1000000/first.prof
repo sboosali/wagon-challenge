@@ -1,0 +1,107 @@
+	Wed Dec 16 13:18 2015 Time and Allocation Profiling Report  (Final)
+
+	   first +RTS -N -p -s -h -i0.1 -RTS
+
+	total time  =       44.40 secs   (44400 ticks @ 1000 us, 1 processor)
+	total alloc = 66,331,900,840 bytes  (excludes profiling overheads)
+
+COST CENTRE             MODULE      %time %alloc
+
+pDigits                 Wagon.First  45.3   40.8
+pText                   Wagon.First  17.7   27.3
+_Just'                  Wagon.First   9.1    6.9
+pSeparator              Wagon.First   8.6   11.3
+foldI.go                Wagon.First   5.0    1.0
+summarizeStdinStreaming Wagon.First   4.7    4.9
+stripLine               Wagon.First   3.9    2.1
+parse                   Wagon.First   2.1    1.5
+pRow                    Wagon.First   1.4    2.0
+
+
+                                                                     individual     inherited
+COST CENTRE                MODULE                  no.     entries  %time %alloc   %time %alloc
+
+MAIN                       MAIN                    137           0    0.0    0.0   100.0  100.0
+ main                      Wagon.First             275           0    0.0    0.0   100.0  100.0
+  summarizeStdinStreaming  Wagon.First             278           0    4.7    4.9   100.0  100.0
+   showsPrec               Wagon.First             327           9    0.0    0.0     0.0    0.0
+    showsPrec              Wagon.First             343           2    0.0    0.0     0.0    0.0
+     showsPrec             Wagon.First             346           4    0.0    0.0     0.0    0.0
+    showsPrec              Wagon.First             337           2    0.0    0.0     0.0    0.0
+     showsPrec             Wagon.First             340           4    0.0    0.0     0.0    0.0
+    showsPrec              Wagon.First             334           4    0.0    0.0     0.0    0.0
+    showsPrec              Wagon.First             332           1    0.0    0.0     0.0    0.0
+     showsPrec             Wagon.First             344           0    0.0    0.0     0.0    0.0
+      showsPrec            Wagon.First             347           0    0.0    0.0     0.0    0.0
+     showsPrec             Wagon.First             338           0    0.0    0.0     0.0    0.0
+      showsPrec            Wagon.First             341           0    0.0    0.0     0.0    0.0
+     showsPrec             Wagon.First             335           0    0.0    0.0     0.0    0.0
+    showsPrec              Wagon.First             330           1    0.0    0.0     0.0    0.0
+   stripLine               Wagon.First             291           0    3.9    2.1     3.9    2.1
+   foldI                   Wagon.First             280           0    0.0    0.0    91.5   93.0
+    toMaybe'               Wagon.First             328           0    0.0    0.0     0.0    0.0
+    foldI.go               Wagon.First             281     1000001    5.0    1.0    91.5   93.0
+     timeOnPage            Wagon.First             323     1000000    0.0    0.0     0.0    0.0
+     latency               Wagon.First             322     1000000    0.1    0.0     0.1    0.0
+     page                  Wagon.First             321     1000000    0.1    0.0     0.1    0.0
+     _Just'                Wagon.First             319           0    9.1    6.9     9.3    6.9
+      down                 Wagon.First             325           0    0.1    0.0     0.2    0.0
+       down.\              Wagon.First             326     1919751    0.1    0.0     0.1    0.0
+      _Just'.\             Wagon.First             320    12000000    0.0    0.0     0.0    0.0
+     sessionId             Wagon.First             311     1000000    0.1    0.0     0.1    0.0
+     ==                    Wagon.First             310     4000000    0.0    0.0     0.0    0.0
+     parseRow              Wagon.First             284           0    0.0    0.0    76.8   85.1
+      parse                Wagon.First             285           0    2.1    1.5    76.8   85.1
+       pRow                Wagon.First             287           0    1.4    2.0    74.7   83.5
+        optionMaybe'       Wagon.First             295           0    0.6    0.8    61.1   63.2
+         pDouble           Wagon.First             305           0    0.4    0.8    31.0   31.0
+          pDigits          Wagon.First             306           0   27.1   27.3    30.6   30.2
+           pDouble.append3 Wagon.First             317      919753    0.3    0.3     0.3    0.3
+           toMaybe'        Wagon.First             316           0    0.1    0.0     0.1    0.0
+           pText           Wagon.First             308           0    0.3    0.1     3.1    2.6
+            pSeparator     Wagon.First             309           0    2.8    2.5     2.8    2.5
+             pInteger      Wagon.First             312           0    0.0    0.0     0.0    0.0
+           pInteger        Wagon.First             307           0    0.0    0.0     0.0    0.0
+         pInteger          Wagon.First             299           0    0.1    0.1    20.4   16.8
+          pDigits          Wagon.First             301           0   18.2   13.6    20.2   16.7
+           toMaybe'        Wagon.First             315           0    0.1    0.0     0.1    0.0
+           pText           Wagon.First             302           0    0.0    0.0     1.9    3.1
+            pSeparator     Wagon.First             303           0    1.9    3.1     1.9    3.1
+         pText             Wagon.First             296           0    7.0   11.4     9.2   14.6
+          toMaybe'         Wagon.First             314           0    0.1    0.0     0.1    0.0
+          pSeparator       Wagon.First             297           0    2.2    3.1     2.2    3.1
+        pText              Wagon.First             289           0   10.4   15.8    12.2   18.3
+         pSeparator        Wagon.First             293           0    1.8    2.5     1.8    2.5
+ CAF                       Wagon.First             272           0    0.0    0.0     0.0    0.0
+  showsPrec                Wagon.First             345           0    0.0    0.0     0.0    0.0
+  showsPrec                Wagon.First             342           0    0.0    0.0     0.0    0.0
+  showsPrec                Wagon.First             339           0    0.0    0.0     0.0    0.0
+  showsPrec                Wagon.First             336           0    0.0    0.0     0.0    0.0
+  showsPrec                Wagon.First             333           0    0.0    0.0     0.0    0.0
+  showsPrec                Wagon.First             331           0    0.0    0.0     0.0    0.0
+  showsPrec                Wagon.First             329           0    0.0    0.0     0.0    0.0
+  down                     Wagon.First             324           1    0.0    0.0     0.0    0.0
+  _Just'                   Wagon.First             318           2    0.0    0.0     0.0    0.0
+  toMaybe'                 Wagon.First             313           1    0.0    0.0     0.0    0.0
+  pDouble                  Wagon.First             304           1    0.0    0.0     0.0    0.0
+  pDigits                  Wagon.First             300           1    0.0    0.0     0.0    0.0
+  pInteger                 Wagon.First             298           1    0.0    0.0     0.0    0.0
+  pSeparator               Wagon.First             292           1    0.0    0.0     0.0    0.0
+  stripLine                Wagon.First             290           1    0.0    0.0     0.0    0.0
+  pText                    Wagon.First             288           1    0.0    0.0     0.0    0.0
+  pRow                     Wagon.First             286           1    0.0    0.0     0.0    0.0
+   optionMaybe'            Wagon.First             294           3    0.0    0.0     0.0    0.0
+  parseRow                 Wagon.First             282           1    0.0    0.0     0.0    0.0
+   parse                   Wagon.First             283           1    0.0    0.0     0.0    0.0
+  summarizeStdinStreaming  Wagon.First             277           1    0.0    0.0     0.0    0.0
+   foldI                   Wagon.First             279           1    0.0    0.0     0.0    0.0
+  main                     Wagon.First             274           1    0.0    0.0     0.0    0.0
+   main.\                  Wagon.First             276           1    0.0    0.0     0.0    0.0
+ CAF                       GHC.Conc.Signal         187           0    0.0    0.0     0.0    0.0
+ CAF                       GHC.Float               182           0    0.0    0.0     0.0    0.0
+ CAF                       GHC.IO.Encoding         180           0    0.0    0.0     0.0    0.0
+ CAF                       GHC.IO.Encoding.Iconv   178           0    0.0    0.0     0.0    0.0
+ CAF                       GHC.IO.Handle.FD        171           0    0.0    0.0     0.0    0.0
+ CAF                       GHC.IO.Handle.Text      169           0    0.0    0.0     0.0    0.0
+ CAF                       Text.Read.Lex           155           0    0.0    0.0     0.0    0.0
+ CAF                       GHC.Event.Thread        146           0    0.0    0.0     0.0    0.0
